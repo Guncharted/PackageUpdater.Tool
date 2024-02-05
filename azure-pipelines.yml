@@ -19,17 +19,7 @@ steps:
     versioningScheme: 'off'
     verbosityPack: Quiet
 
-# - task: NuGetCommand@2
-#   name: Publish
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'Guncharted-NuGet'
-#     allowPackageConflicts: true
-
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
 - script: nuget push $(Build.ArtifactStagingDirectory)\*.*.nupkg -Source $(nugetSource) -ApiKey $(nuget.apikey) -SkipDuplicate -NoSymbols
   displayName: 'Push to NuGet.org'
-    
