@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- group: Guncharted.PackageUpdater.Tool
+
+steps:
+- task: DotNetCoreCLI@2
+  name: Restore
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  name: Pack
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'off'
+    verbosityPack: Quiet
+
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+- script: nuget push $(Build.ArtifactStagingDirectory)\*.*.nupkg -Source $(nugetSource) -ApiKey $(nuget.apikey) -SkipDuplicate -NoSymbols
+  displayName: 'Push to NuGet.org'
