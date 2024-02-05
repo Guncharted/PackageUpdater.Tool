@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
+variables:
+- group: my-variable-group
+
 steps:
 - task: DotNetCoreCLI@2
   name: Restore
