@@ -5,7 +5,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-- group: my-variable-group
+- group: Guncharted.PackageUpdater.Tool
 
 steps:
 - task: DotNetCoreCLI@2
