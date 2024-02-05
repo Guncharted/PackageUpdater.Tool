@@ -1,7 +1,8 @@
 # Guncharted.PackageUpdater
 
-dotnet pack
-dotnet tool install --global --add-source ./nupkg Guncharted.PackageUpdater
-
-usage
-pkgupd -p Microsoft.AspNetCore.Mvc -v 50.3
+### First - pack
+    dotnet pack
+### Then install:
+    dotnet tool install --global --add-source ./nupkg Guncharted.PackageUpdater
+### Go ahead and use
+    pkgupd -p MyProject.Abstractions -v 1.1
