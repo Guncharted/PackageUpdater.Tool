@@ -10,7 +10,7 @@ internal class UpdateExecutor
             return;
         }
 
-        await Console.Out.WriteLineAsync(Environment.CurrentDirectory);
+        await Console.Out.WriteLineAsync($"WORKING DIRECTORY - {Environment.CurrentDirectory}\n");
 
         var directoryFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.csproj", SearchOption.AllDirectories);
 
@@ -25,14 +25,14 @@ internal class UpdateExecutor
             if (string.IsNullOrWhiteSpace(targetLine))
                 continue;
 
-            LogConsole($"Setting version of {packageName}-{targetVersion} for {shortFileName}");
+            LogConsole($"---\nSetting version of {packageName}-{targetVersion} for {shortFileName}");
 
             var index = text.IndexOf(targetLine);
             text[index] = GenerateNewPackageReferenceNode(packageName, targetVersion, targetLine);
 
             await File.WriteAllLinesAsync(directoryFile, text);
 
-            LogConsole($"Updated package references for {shortFileName}");
+            LogConsole($"Updated package references for {shortFileName}\n---\n");
         }
     }
 
