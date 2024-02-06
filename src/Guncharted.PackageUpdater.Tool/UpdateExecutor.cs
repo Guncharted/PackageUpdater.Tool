@@ -16,21 +16,23 @@ internal class UpdateExecutor
 
         foreach (var directoryFile in directoryFiles)
         {
-            var text = (await File.ReadAllLinesAsync(directoryFile)).ToList();
+            var lines = (await File.ReadAllLinesAsync(directoryFile)).ToList();
 
             var shortFileName = directoryFile.Split('\\').LastOrDefault();
 
-            var targetLine = text.Where((x, i) => x.Contains(packageName) && x.Contains("PackageReference")).FirstOrDefault();
+            var targetLine = lines
+                .Where(x => x.Contains(packageName, StringComparison.InvariantCultureIgnoreCase) && x.Contains("PackageReference"))
+                .FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(targetLine))
                 continue;
 
             LogConsole($"---\nSetting version of {packageName}-{targetVersion} for {shortFileName}");
 
-            var index = text.IndexOf(targetLine);
-            text[index] = GenerateNewPackageReferenceNode(packageName, targetVersion, targetLine);
+            var index = lines.IndexOf(targetLine);
+            lines[index] = GenerateNewPackageReferenceNode(packageName, targetVersion, targetLine);
 
-            await File.WriteAllLinesAsync(directoryFile, text);
+            await File.WriteAllLinesAsync(directoryFile, lines);
 
             LogConsole($"Updated package references for {shortFileName}\n---\n");
         }
