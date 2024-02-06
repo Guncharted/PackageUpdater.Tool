@@ -1,5 +1,7 @@
 # Guncharted.PackageUpdater
 
+    dotnet tool install --global Guncharted.PackageUpdater.Tool --version 0.1.2
+
 ### First - pack
     dotnet pack
 ### Then install:
